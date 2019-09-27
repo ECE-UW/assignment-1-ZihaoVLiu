@@ -53,11 +53,8 @@ def removeDuplicates(origin_list,target_line):
 
 def capitalDetect(input, list):
     for name in list:
-        if gather[0] == "r" or gather[0] == "c" and input.upper() == name.upper():
-            pass
         if input.upper() == name.upper():
-            print("Error: The program is case insensitive. Your command has been done.")
-
+            print("Error: The program is case insensitive. The street name has been input.")
 
 def crossPointInSegment(p,line):
     # if p is on line, then return the line coordinates, if not, return 0.
@@ -83,11 +80,11 @@ def cloneList(li1):
     li_copy = li1[:]
     return li_copy
 
-information = []
-streetNameList = []
-dictStreet = {}
 
 def main():
+    information = []
+    streetNameList = []
+    dictStreet = {}
     while True:
         gather = raw_input("please input command (such as a,c,r,g + information).\n")
         # use regular expression to get street name.
