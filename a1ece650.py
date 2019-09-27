@@ -224,7 +224,6 @@ def main():
                 for dictV in range(len(vertex)):
                     dictVertex[str(dictV+1)]=vertex[dictV]
                 # print the vertex of g command
-                print("g")
                 print("V = {")
                 for vTuple in range(len(dictVertex)):
                     print("  %d:  (%.2f,%.2f)" % (vTuple+1, dictVertex[str(vTuple+1)][0], dictVertex[str(vTuple+1)][1]))
