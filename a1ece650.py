@@ -2,7 +2,7 @@ import re
 from itertools import product, combinations
 
 # get the cross point
-def inSegment(p,line,line2):
+def CPinSegment(p,line,line2):
     # detect whether the line is vertical
     if line[0][0] == line[1][0]:
         if  p[1] >= min(line[0][1],line[1][1]) and p[1] <= max(line[0][1],line[1][1]):
@@ -22,20 +22,20 @@ def inSegment(p,line,line2):
 def getLinePara(line):
     a = line[0][1] - line[1][1]
     b = line[1][0] - line[0][0]
-    c = line[0][0] *line[1][1] - line[1][0] * line[0][1]
+    c = line[0][0] * line[1][1] - line[1][0] * line[0][1]
     return a,b,c
 
 def getCrossPoint(line1,line2):
-    a1,b1,c1 = getLinePara(line1)
-    a2,b2,c2 = getLinePara(line2)
-    d = a1* b2 - a2 * b1
+    a1, b1, c1 = getLinePara(line1)
+    a2, b2, c2 = getLinePara(line2)
+    d = a1 * b2 - a2 * b1
     p = [0,0]
     if d == 0: # line1 and line2 are horizontal
         return ()
     else:
         p[0] = float((b1 * c2 - b2 * c1)*1.0 / d)
         p[1] = float((c1 * a2 - c2 * a1)*1.0 / d)
-    if inSegment(p,line1,line2):
+    if CPinSegment(p,line1,line2):
         return p
     else:
         return ()
