@@ -125,12 +125,18 @@ def main():
         try:
             # perform the add command
             if gather[0] == "a":
-                capitalDetect(streetName[0], streetNameList)
                 if gather.count("(") + gather.count(")") != len(streetCoord):
                     print("Error: Expected correct parentheses input.")
                     continue
+                # detect whether the street name is capital different.
+                judge = True
+                capitalDetect(streetName[0], streetNameList)
+                for name in streetNameList:
+                    if streetName[0].upper() == name.upper():
+                        dictStreet[name] = streetCoord
+                        judge = False
                 # avoid duplicate input
-                elif streetName[0] not in streetNameList:
+                if (streetName[0] not in streetNameList) or judge:
                     # put key and value into the dictionary
                     dictStreet[streetName[0]] = streetCoord
                     # put the street name into a list
