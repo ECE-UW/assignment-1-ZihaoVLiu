@@ -1,4 +1,5 @@
 import re
+import sys
 from itertools import product, combinations
 
 # get the cross point
@@ -82,11 +83,11 @@ def cloneList(li1):
 
 
 def main():
-    information = []
-    streetNameList = []
-    dictStreet = {}
-    while True:
-        try:
+    try:
+        information = []
+        streetNameList = []
+        dictStreet = {}
+        while True:
             gather = raw_input("please input command (such as a,c,r,g + information).\n")
             # use regular expression to get street name.
             patternStreet = re.compile('"(.*)"')
@@ -94,35 +95,31 @@ def main():
             # use regular expression to get street coordinate.
             patternCoord = re.compile('\-\d+|\d+')
             streetCoord = patternCoord.findall(gather)
-        except:
-            print("Error: The street name and coordinates is not valid.")
 
-        try:
+
             if gather == "quit":
                 break
             elif gather[0] not in ["a", "c", "r", "g"]:
-                print("Error: Command is invalid. Please try again. If you want to quit, please input 'quit'")
+                print("Error: Command is invalid. Please try again.")
                 continue
             elif gather[0] in ["a", "c", "r"] and gather[1] != " ":
                 print("Error: Your input command format is not correct (Need space behind the command). Please input again.")
                 continue
             # detect whether a space between '"' and '('
             elif (gather[0] == "a" or gather[0] == "c") and (gather[gather.index("(")-1] != " " or ("(" not in gather or ")" not in gather)):
-                print("Error: Command is invalid. Please try again. If you want to quit, please input 'quit'")
+                print("Error: Command is invalid. Please try again. ")
                 continue
             elif (gather[0] == "a" or gather[0] == "c") and (len(streetName) ==0 or len(streetCoord) < 4 or len(streetCoord) % 2 != 0):
-                print("Error: No street name or insufficient street coordinates are input. Please try again. If you want to quit, please input 'quit' ")
+                print("Error: No street name or insufficient street coordinates are input. Please try again.")
                 continue
-        except:
-            print("Error: Your input command format is not correct. Please input again.")
-            continue
 
-        # change the list from string to int.
-        i = 0
-        for coord in streetCoord:
-            streetCoord[i] = float(coord)
-            i += 1
-        try:
+
+            # change the list from string to int.
+            i = 0
+            for coord in streetCoord:
+                streetCoord[i] = float(coord)
+                i += 1
+
             # perform the add command
             if gather[0] == "a":
                 if gather.count("(") + gather.count(")") != len(streetCoord):
@@ -355,8 +352,8 @@ def main():
                 if len(listEdgeD)!= 0:
                     print("  <%d,%d>" %(listEdgeD[len(listEdgeD)-1][0], listEdgeD[len(listEdgeD)-1][1]))
                 print("}")
-        except:
-            print("Error: Input is valid. Please input the format such as <command> <street name> <coordinate>")
+    except EOFError:
+        sys.exit()
 
 if __name__ == '__main__':
     main()
