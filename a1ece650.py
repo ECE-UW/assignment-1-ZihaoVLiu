@@ -88,7 +88,7 @@ def main():
         streetNameList = []
         dictStreet = {}
         while True:
-            gather = raw_input("please input command (such as a,c,r,g + information).\n")
+            gather = raw_input()
             # use regular expression to get street name.
             patternStreet = re.compile('"(.*)"')
             streetName = patternStreet.findall(gather)
