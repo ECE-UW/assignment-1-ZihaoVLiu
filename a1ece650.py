@@ -62,7 +62,7 @@ def crossPointInSegment(p,line):
     if line[0][0]-line[1][0] != 0:
         k = (float(line[0][1]-line[1][1])/float(line[0][0]-line[1][0]))
         b = float(line[0][1]-k*line[0][0])
-        if p[1] == (k*p[0]+b) and p[0] >= min(line[0][0],line[1][0]) and p[0] <= max(line[0][0],line[1][0]) and p[1] >= min(line[0][1],line[1][1]) and p[1] <= max(line[0][1],line[1][1]):
+        if abs(p[1] - (k*p[0]+b)) < 0.0001 and p[0] >= min(line[0][0],line[1][0]) and p[0] <= max(line[0][0],line[1][0]) and p[1] >= min(line[0][1],line[1][1]) and p[1] <= max(line[0][1],line[1][1]):
             return line[0],line[1]
         else:
             return 0
@@ -159,6 +159,9 @@ def main():
                     continue
             # perform the remove command
             elif gather[0] == "r":
+                if gather.count("(") + gather.count(")") != len(streetCoord):
+                    print("Error: Expected correct parentheses input.")
+                    continue
                 for name in streetNameList:
                     if streetName[0].upper() == name.upper():
                         dictStreet[name] = streetCoord
@@ -303,6 +306,8 @@ def main():
                 for ep in endPointListU:
                     listC2E = []
                     for cps in crossCombSegList:
+                        crossPointListU2nd = cloneList(crossPointListU)
+                        judge_point = 0
                         if crossPointInSegment(ep, cps) != 0:
                             listC2E.append(crossPointInSegment(ep, cps)[0])
                             listC2E.append(crossPointInSegment(ep, cps)[1])
@@ -323,8 +328,14 @@ def main():
                             for vertex2 in dictVertex:
                                 if dictVertex[vertex2] == cps[1]:
                                     break
-                            tupleEdge = (int(vertex1), int(vertex2))
-                            listEdge.append(tupleEdge)
+                            crossPointListU2nd.remove(dictVertex[vertex1])
+                            crossPointListU2nd.remove(dictVertex[vertex2])
+                            for point in crossPointListU2nd:
+                                if crossPointInSegment(point, [dictVertex[vertex1],dictVertex[vertex2]]) != 0:
+                                    judge_point = 1
+                            if judge_point == 0:
+                                tupleEdge = (int(vertex1), int(vertex2))
+                                listEdge.append(tupleEdge)
 
                 # delete bad edges
                 listDupEdge = []
